@@ -1,0 +1,56 @@
+html,
+body,
+.page-content {
+    -webkit-overflow-scrolling: touch;
+}
+.app-download {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 38px;
+    padding: 12px;
+    background: rgba(0, 0, 0, .7)
+}
+.app-download .d-close-btn,
+.app-download .d-logo {
+    float: left;
+    margin-right: 12px;
+    height: 100%;
+    line-height: 36px
+}
+.app-download .d-close-btn img {
+    height: 18px;
+    width: 18px
+}
+.app-download .d-btn {
+    float: right;
+    height: 90%;
+    margin-right: 20px;
+    margin-top: 4px;
+}
+.app-download img {
+    max-height: 100%;
+    max-width: 100%
+}
+
+.app-download .text-new {
+    height: 100%;
+    color: #fff;
+    overflow: hidden;
+}
+.app-download .text-new span {
+    display: block;
+    font-size: 14px;
+    line-height: 14px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden
+}
+
+.appshell.hide {
+    opacity: 0;
+    -webkit-transition: all .2s linear;
+    -moz-transition: all .2s linear;
+    transition: all .2s linear
+}

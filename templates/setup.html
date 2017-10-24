@@ -1,0 +1,46 @@
+{% extends "appbase.html" %} {% block content %}
+
+<div class="page__hd">
+    <h1 class="page__title">FaceLock Setup</h1>
+    <p class="page__desc">Welcome to use FaceLock! Please follow the instruction to setup your system</p>
+</div>
+<div class="page__bd">
+    <div class="weui-cells__title">Step1: Host Phone Number(receiving SMS)</div>
+    <div class="weui-cells weui-cells_form">
+        <div class="weui-cell">
+            <div class="weui-cell__hd">
+                <label class="weui-label">+1</label>
+            </div>
+            <div class="weui-cell__bd">
+                <input class="weui-input" type="number" pattern="[0-9]*" placeholder="">
+            </div>
+        </div>
+    </div>
+
+    <div class="weui-cells__title">Step2: Submit one of your photo</div>
+    <div class="weui-cells weui-cells_form" id='property_images'>
+        <div class="weui-cell">
+            <div class="weui-cell__bd">
+                <div class="weui-uploader">
+                    <div class="weui-uploader__hd">
+                        <p class="weui-uploader__title"></p>
+                        <div class="weui-uploader__info">0/3</div>
+                    </div>
+                    <div class="weui-uploader__bd">
+                        <ul class="weui-uploader__files" id="weui-uploader__files">
+                        </ul>
+                        <div class="weui-uploader__input-box">
+                            <input id="uploaderInput" class="weui-uploader__input" type="file" accept="image/*" multiple="">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="weui-cells__tips">Max 3 photo, the more photo the better accuracy</div>
+
+</div>
+<div class="weui-btn-area">
+    <a class="weui-btn weui-btn_primary" href="javascript:" id="showTooltips">Submit</a>
+</div>
+{% endblock %}

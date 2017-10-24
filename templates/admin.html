@@ -1,0 +1,51 @@
+{% extends "appbase.html" %}
+{% block content %}
+
+<style type="text/css">
+    .result_img {
+        width: 90%;
+        height: auto;
+    }
+</style>
+
+<script>
+  const API = 'http://127.0.0.1:8083/'
+
+  function call_REST(action, param, method){
+    $.ajax({
+         type: method,
+         data: param,
+         url: API + "action/" + action
+     }).done(function(res) {
+         if (res && res.status == 0) {
+           weui.toast('Succeed', 2000);
+         } else {
+           alert('Failed: ' + res.message);
+         }
+     }).fail(function(jqXHR, textStatus, errorThrown) {
+       alert('Connection failed');
+     });
+  }
+  function do_unlock() {
+    call_REST('unlock', {'token': {{ token }}}, "POST");
+  }
+  function do_call_police() {
+    call_REST('call', {'token': {{ token }}}, "POST");
+  }
+
+</script>
+<div class="page__hd">
+    <h1 class="page__title">FaceLock Admin Panel</h1>
+</div>
+<div class="page__bd">
+    <article class="weui-article">
+        <center>LiveCam displayed here[TODO]</center>
+    </article>
+    <div class="page__bd page__bd_spacing">
+        <a href="javascript:do_unlock()" class="weui-btn weui-btn_primary">Unlock</a>
+        <a href="javascript:do_call_police()" class="weui-btn weui-btn_warn">Call Police</a>
+    </div>
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>FaceLock Authentication</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+
+  <link rel="stylesheet" href="{{ url_for('static',filename='css/example.css') }}" type="text/css" />
+  <link rel="stylesheet" href="{{ url_for('static',filename='css/weui.css') }}" type="text/css" />
+  <script src="{{ url_for('static',filename='js/weui.min.js') }}"></script>
+  <script src="{{ url_for('static',filename='js/jquery.min.js') }}"></script>
+
+
+</head>
+<body>
+
+{% block content %}{% endblock %}
+
+  <!-- / content -->
+<div class="page__bd page__bd_spacing">
+    <div class="weui-footer">
+        <br>
+        <p class="weui-footer__links">
+            </p>
+            <p class="weui-footer__text">Copyright © 2017 FaceLock</p>
+        </div>
+        <br>
+        <br>
+    </div>
+</body>
+</html>

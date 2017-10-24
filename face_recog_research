@@ -1,0 +1,18 @@
+API 1: faceplusplus.com
+A Chinese company that offers face recognition related APIs, including face recognition & compare, demo: https://www.faceplusplus.com/face-comparing/#demo
+However, Since we are using webcam to extract faces, this API can only compare 2 images instead of video(or even live video), therefore if I decided to use this API, I'll need to find a way to lower the extracted frame from video cam. Also this method could be expensive and slow(because the server is probably in China)...
+
+API 2: kairos.com
+Pretty much the same as faceplusplus, but way more expensive in terms of the pricing, probably won't consider this one...
+
+API 3: Microsoft Azure Face API
+The pricing is reasonable, the free tier should be enough if I implemented the event trigger for calling the API right.
+UPDATE: It seems that this API can only use image from internet... So I guess I need to forget this as well
+
+API 4: Google Cloud Vision
+Only has face detection but not recognition... Bye Google
+
+API 5: OpenCV
+Maybe the best support for face recognition from video, but probably will be good for ML implementation since I also need to figure out a way to detect if the face is a real face. Also since all the process is in local, this will be much more faster and efficient than all the other remote APIs
+
+Conclusion: It appears I have two options: first go with face recognition APIs that needs to call remote APIs, which would be easy to implement and high accuracy, however, it could be expensive and time inefficient. Second is to implement my own face recognition API using libraries from openCV, which I believe will be way more faster and cheap than the first option, and making real time recognition possible, since it's all local.

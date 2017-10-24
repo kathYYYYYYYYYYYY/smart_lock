@@ -1,0 +1,11 @@
+Sep: Messaging API + controller frontend
+Oct: Locker Python API(Lock & unlock, communicate with camera API)
+Nov: Camera Python API(Analying images, facial recognition)
+Dec: Raspberry Pi setup + putting everything together
+
+Sep week2: Messaging API
+Sep week3: Controller frontend
+Sep week4: Testing above two components + putting them together
+
+Oct week1 - 2: Reading August Lock API documents, port to custom Python library with basic functionalities like lock & unlock & check status, etc.
+Oct week3 - 4: Building public API that can be used by camera API & frontend controller, putting together with frontend controller and testing with frontend.
