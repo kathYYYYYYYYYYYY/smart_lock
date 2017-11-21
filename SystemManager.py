@@ -20,7 +20,6 @@ class SystemManager:
         if not self.ifFinishedSetup():
             file = open('json/setup.lock', 'w')
 
-
     def saveSystemConfig(self, phoneNumber, photos):
         # Save conf, phonen, etc
         f = open('json/config', 'w')

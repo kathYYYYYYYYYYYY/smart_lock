@@ -12,25 +12,27 @@
   const API = 'http://127.0.0.1:8083/'
 
   function call_REST(action, param, method){
+    var loading = weui.loading("Loading...");
     $.ajax({
          type: method,
          data: param,
          url: API + "action/" + action
      }).done(function(res) {
-         if (res && res.status == 0) {
-           weui.toast('Succeed', 2000);
-         } else {
-           alert('Failed: ' + res.message);
-         }
+        loading.hide();
+        if (res && res.status == 0) {
+          weui.toast('Succeed', 2000);
+        } else {
+          weui.alert(res.message);
+        }
      }).fail(function(jqXHR, textStatus, errorThrown) {
-       alert('Connection failed');
+       weui.alert('Connection failed');
      });
   }
   function do_unlock() {
     call_REST('unlock', {'token': {{ token }}}, "POST");
   }
-  function do_call_police() {
-    call_REST('call', {'token': {{ token }}}, "POST");
+  function add_faces(){
+    window.location.href = "/add_faces/" + {{ token }};
   }
 
 </script>
@@ -39,11 +41,13 @@
 </div>
 <div class="page__bd">
     <article class="weui-article">
-        <center>LiveCam displayed here[TODO]</center>
+        <center>LiveCam</center>
+        <!--img src="{{ url_for('video_feed') }}" /-->
     </article>
     <div class="page__bd page__bd_spacing">
         <a href="javascript:do_unlock()" class="weui-btn weui-btn_primary">Unlock</a>
-        <a href="javascript:do_call_police()" class="weui-btn weui-btn_warn">Call Police</a>
+        <a href="tel:911" class="weui-btn weui-btn_warn">Call Police</a>
+        <a href="javascript:add_faces()" class="weui-btn weui-btn_primary">Add Faces</a>
     </div>
 
 </div>

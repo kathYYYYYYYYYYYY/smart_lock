@@ -5,6 +5,8 @@ import time
 
 AUTHY_API_KEY = 'Qz9ObWcxCdSkxjLqvdILQq1yfSAinpGR'
 
+HOST_PHONE_NUMBER = '4168766678'
+
 class MessageManager:
 	def __init__(self):
 		pass

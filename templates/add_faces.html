@@ -1,0 +1,139 @@
+{% extends "appbase.html" %} {% block content %}
+
+<div class="page__hd">
+    <h1 class="page__title">Add Faces</h1>
+    <p class="page__desc">Welcome to use FaceLock! Please follow the instruction to add faces to your system</p>
+</div>
+<div class="page__bd">
+    <div class="weui-cells__title">Submit one of your photo</div>
+    <div class="weui-cells weui-cells_form" id='property_images'>
+        <div class="weui-cell">
+            <div class="weui-cell__bd">
+                <div class="weui-uploader">
+                    <div class="weui-uploader__hd">
+                        <p class="weui-uploader__title"></p>
+                    </div>
+                    <div class="weui-uploader__bd">
+                        <ul class="weui-uploader__files" id="weui-uploader__files">
+                        </ul>
+                        <div class="weui-uploader__input-box">
+                            <input id="uploaderInput" class="weui-uploader__input" type="file" accept="image/*" multiple="">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="weui-cell">
+          <div class="weui-cell__hd">
+              <label class="weui-label">Your name</label>
+          </div>
+          <div class="weui-cell__bd">
+              <input id='name' class="weui-input">
+          </div>
+      </div>
+    </div>
+
+</div>
+<div class="weui-btn-area">
+    <a class="weui-btn weui-btn_primary" href="javascript:submit()" id="showTooltips">Add Face</a>
+</div>
+<script>
+  var base64;
+  $(function () {
+
+    // 允许上传的图片类型
+    var allowTypes = ['image/jpg', 'image/jpeg', 'image/png', 'image/gif'];
+    //10MB
+    var maxSize = 10 * 1024 * 1024;
+    // 图片最大宽度
+    var maxWidth = 1500;
+    
+    rotateAndCache = function(image,angle) {
+      var offscreenCanvas = document.createElement('canvas');
+      var offscreenCtx = offscreenCanvas.getContext('2d');
+
+      var size = Math.max(image.width, image.height);
+      offscreenCanvas.width = size;
+      offscreenCanvas.height = size;
+
+      offscreenCtx.translate(size/2, size/2);
+      offscreenCtx.rotate(angle * Math.PI/180);
+      offscreenCtx.drawImage(image, -(image.width/2), -(image.height/2));
+
+      return offscreenCanvas;
+    }
+
+    $('#uploaderInput').on('change', function (event) {
+        var files = event.target.files;
+
+        // 如果没有选中文件，直接返回
+        if (files.length === 0) {
+            return;
+        }
+        upload_remaining = files.length;
+        for (var i = 0, len = files.length; i < len; i++) {
+            var file = files[i];
+            var reader = new FileReader();
+
+            // 如果类型不在允许的类型范围内
+            if (allowTypes.indexOf(file.type) === -1) {
+                weui.alert('该类型不允许上传');
+                continue;
+            }
+
+            reader.onload = function (e) {
+                var img = new Image();
+                img.onload = function () {
+                    // 不要超出最大宽度
+                    var w = Math.min(maxWidth, img.width);
+                    // 高度按比例计算
+                    var h = img.height * (w / img.width);
+
+                    var canvas = document.createElement('canvas');
+                    var ctx = canvas.getContext('2d');
+                    // 设置 canvas 的宽度和高度
+                    canvas.width = w;
+                    canvas.height = h;
+                    ctx.drawImage(img, 0, 0, w, h);
+                    base64 = canvas.toDataURL('image/png');
+
+                    // 插入到预览区
+                    var $preview = $('<li class="weui-uploader__file" style="background-image:url(' + base64 + ')"><div class="weui-uploader__file-content">0%</div></li>');
+                    $('#weui-uploader__files').html($preview);
+                    var num = $('.weui-uploader__file').length;
+                };
+                img.src = e.target.result;
+            };
+            reader.readAsDataURL(file);
+        }
+    });
+  });
+
+  function submit() {
+      var name = $('#name').val();
+
+      if (name.length == 0 || !base64){
+        weui.alert('Please fill all information');
+      }
+      $.ajax({
+          type: "POST",
+          data: {
+            name: name,
+            pic: base64
+          },
+          url: "/add_faces/{{ token }}"
+      }).done(function (res) {
+          var data = res;
+          if (data["status"] == 0){
+              alert('Face added!');
+              location.reload();
+          }
+          else{
+              weui.alert('Submit failed, please try again');
+          }
+      }).fail(function (jqXHR, textStatus, errorThrown) {
+          weui.alert('Submit failed, please try again');
+      });
+  }
+</script>
+{% endblock %}

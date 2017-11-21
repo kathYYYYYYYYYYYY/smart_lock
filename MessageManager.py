@@ -8,6 +8,7 @@ import binascii
 account_sid = "AC3db735ad8d7d473be29935a424f53642"
 auth_token = "d5e73e1ff1cc0c8a1922c3de187364b5"
 
+HOST_PHONE_NUMBER = '+14168766678'
 TOKEN_EXPIRED = 3 * 60
 
 class MessageManager:

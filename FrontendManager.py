@@ -3,12 +3,16 @@ import json
 import os
 import time
 from flask import logging, Flask, Response, jsonify, request, url_for, redirect, send_file, render_template, session, flash, send_from_directory
+import LockManager
+import base64
+import string
+import random
 
 TOKEN_EXPIRED = 3 * 60
 
 class FrontendManager:
     def __init__(self):
-        pass
+        self.lockManager = LockManager.LockManager()
 
     def getAdminPanel(self, receivingToken):
         if not self.verifyToken(receivingToken):
@@ -37,7 +41,45 @@ class FrontendManager:
             return {'status': 1, 'message': "Authentication Failed"}
         if action == 'unlock':
             # Do unlock
-            return {'status': 0}
+            if self.lockManager.doUnlock('host(via admin page)'):
+                return {'status': 0}
+            else:
+                return {'status': 1, 'message': "Failed to unlock, connection issue"}
         elif action == 'call':
             # Do call police
             return {'status': 0}
+
+    def doSetup(self, phoneNumber, name, pic, accessToken):
+        # Save conf, phonen, etc
+        f = open('json/config', 'w')
+        lockId = self.lockManager.getLockIdByAccessToken(accessToken)
+        if not lockId:
+            return {'status': 1, 'message': "Lock not found, please make sure lock is set up."}
+        dic = {'phone': phoneNumber, 'accessToken': accessToken, 'lockId': lockId}
+        f.write(json.dumps(dic))
+        f.close()
+
+        # Save images
+        path = 'images/' + name
+
+        if not os.path.exists(path):
+            os.makedirs(path)
+        with open(path + "/" + self.getRandomString() +".png", "wb") as fh:
+            fh.write(base64.b64decode(pic))
+        return {'status': 0}
+
+    def getAddFacesPage(self, token):
+        if not self.verifyToken(token):
+            return {'status': 1, 'message': "Authentication Failed"}
+        return render_template("add_faces.html", token = token)
+
+    def getRandomString(self):
+        return ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(6))
+
+    def doAddFace(self, token, pic, name):
+        path = 'images/' + name
+        if not os.path.exists(path):
+            os.makedirs(path)
+        with open(path + "/" + self.getRandomString() + ".png", "wb") as fh:
+            fh.write(base64.b64decode(pic))
+        return {'status': 0}
